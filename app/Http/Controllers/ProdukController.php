@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Kategori;
-use Barryvdh\DomPDF\PDF;
+// use Barryvdh\DomPDF\PDF;
+use PDF;
 // use Yajra\DataTables\Contracts\DataTable;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -78,7 +79,7 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kode' => 'required',
+            'kode' => 'required|numeric',
             'nama' => 'required',
             'kategori' => 'required',
             'merk' => 'required',
@@ -92,7 +93,9 @@ class ProdukController extends Controller
             return response()->json(['errors' => $validator->errors()]);
         }
 
-        $jml = Produk::where('kode_produk', '=', $request['kode']->count());
+        // $kode = (int)$request->kode;
+        // dd($kode);
+        $jml = Produk::where('kode_produk', '=', $request['kode'])->count();
         if ($jml < 1) {
             $produk = new Produk;
             $produk->kode_produk = $request['kode'];

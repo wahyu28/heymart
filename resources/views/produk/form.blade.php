@@ -39,7 +39,7 @@
                             <label for="harga_bei" class="form-label">Harga Beli</label>
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
-                                <input type="text" class="form-control" id="harga_bei" name="harga_bei"/>
+                                <input type="text" class="form-control" id="harga_beli" name="harga_beli"/>
                             </div>
                             <span class="invalid-feedback harga_beli_err"></span>
                         </div>

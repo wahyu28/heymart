@@ -11,7 +11,7 @@
                     <div class="row align-items-end">
                         <div class="col">
                             <input type="hidden" id="id" name="id">
-                            <label for="nama" class="form-label">Nama Produk</label>
+                            <label for="nama" class="form-label">Nama Kategori</label>
                             <input type="text" class="form-control" id="nama" name="nama" autofocus/>
                             <span class="invalid-feedback nama_err"></span>
                         </div>

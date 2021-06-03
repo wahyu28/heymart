@@ -124,7 +124,7 @@ $(function() {
     });
 
     $('#select-all').click(function() {
-        $('input[type="checkbox"]').prop('checked'. this.checked);
+        $('input[type="checkbox"]').prop('checked', this.checked);
     });
 
     // Menyimpan data form tambah/edit beserta validasinya
@@ -140,15 +140,23 @@ $(function() {
                 data: $('#modal-form form').serialize(),
                 success: function(data) {
                     if ($.isEmptyObject(data.errors)) {
-                        table.ajax.reload();
-                        $('#modal-form').modal('hide');
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Data berhasil dimasukan',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        if(data.msg == "error") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Kode produk sudah digunakan',
+                                showConfirmButton: true,
+                            });
+                        } else {
+                            $('#modal-form').modal('hide');
+                            table.ajax.reload();
+    
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Data berhasil dimasukan',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }
                     } else {
                         console.log(data.errors);
                         resetValidationText();
@@ -198,7 +206,7 @@ function editForm(id)
     $('input[name=_method]').val('PATCH');
     $('#modal-form form')[0].reset();
     $.ajax({
-        url: "kategori/" + id + "/edit",
+        url: "produk/" + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -207,15 +215,22 @@ function editForm(id)
     		    keyboard: false,
                 show: true
             });
-            $('.modal-title').text('Edit Kategori');
+            $('.modal-title').text('Edit Produk');
 
-            $('#id').val(data.id_kategori);
-            $('#nama').val(data.nama_kategori);
+            $('#id').val(data.id_produk);
+            $('#kode').val(data.kode_produk).attr('readonly', true);
+            $('#nama').val(data.nama_produk);
+            $('#kategori').val(data.id_kategori);
+            $('#merk').val(data.merk);
+            $('#harga_beli').val(data.harga_beli);
+            $('#diskon').val(data.diskon);
+            $('#harga_jual').val(data.harga_jual);
+            $('#stok').val(data.stok);
         },
         error: function() {
             Swal.fire({
                 icon: 'error',
-                title: 'Data gagal dimasukan, Silahkan refresh browser anda',
+                title: 'Tidak dapat menampilkan data',
                 showConfirmButton: true,
             });
         }
@@ -233,7 +248,8 @@ function addForm()
         show: true
     });
     $('#modal-form form')[0].reset();
-    $('.modal-title').text('Tambah Kategori');
+    $('.modal-title').text('Tambah Produk');
+    $('#kode').attr('readonly', false);
 }
 
 //Menghapus data
@@ -250,7 +266,7 @@ function deleteData(id)
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "kategori/" + id,
+                url: "produk/" + id,
                 type: "POST",
                 data: {_method: 'DELETE', _token: '{{csrf_token()}}'},
                 success: function(data) {
@@ -272,6 +288,66 @@ function deleteData(id)
             });
         }
     })
+}
+
+//Menghapus semua data yang di centang
+function deleteAll()
+{
+    if($('input:checked').length < 1) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Data gagal dihapus, Silahkan refresh browser anda',
+            showConfirmButton: true,
+        });
+    } else {
+        Swal.fire({
+            // title: 'Yakin menghapus data ini?',
+            text: "Apakah yakin akan menghapus semua data terpilih?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6e7d88',
+            confirmButtonText: 'Ya, Hapus data!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "produk/hapus",
+                    type: "POST",
+                    data: $('#form-produk').serialize(),
+                    success: function(data) {
+                        table.ajax.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Data berhasil dihapus dari database',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Tidak dapat menghapus data',
+                            showConfirmButton: true,
+                        });
+                    }
+                });
+            }
+        })
+    }
+}
+
+//Mencetak barcode ketika tombol cetak barcode di klik
+function printBarcode()
+{
+    if($('input:checked').length < 1) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Pilih data yang akan di cetak!',
+            showConfirmButton: true,
+        });
+    } else {
+        $('#form-produk').attr('target', '_blank').attr('action', 'produk/cetak').submit();
+    }
 }
 </script>
 @endpush
