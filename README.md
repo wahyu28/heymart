@@ -1,4 +1,4 @@
-# Web Based Point Of Sale Application in Laravel
+# Web Based Point Of Sale Application
 
 Aplikasi Point of Sales yang digunakan untuk memanage kebutuhan market
 
