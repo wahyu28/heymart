@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::middleware(['web', 'cekuser:1'])->group(function () {
     Route::post('produk/hapus', [ProdukController::class, 'deleteSelected']);
     Route::post('produk/cetak', [ProdukController::class, 'printBarcode']);
     Route::resource('produk', ProdukController::class);
+
+    Route::get('supplier/data', [SupplierController::class, 'listData'])->name('supplier.data');
+    Route::resource('supplier', SupplierController::class);
 });
 
 Route::get('tanggal', function() {

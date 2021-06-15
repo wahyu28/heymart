@@ -296,7 +296,7 @@ function deleteAll()
     if($('input:checked').length < 1) {
         Swal.fire({
             icon: 'warning',
-            title: 'Data gagal dihapus, Silahkan refresh browser anda',
+            title: 'Pilih data yang akan di hapus!',
             showConfirmButton: true,
         });
     } else {
