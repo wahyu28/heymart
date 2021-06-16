@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 
@@ -36,16 +37,20 @@ Route::middleware(['web', 'cekuser:1'])->group(function () {
 
     Route::get('supplier/data', [SupplierController::class, 'listData'])->name('supplier.data');
     Route::resource('supplier', SupplierController::class);
+
+    Route::get('member/data', [MemberController::class, 'listData'])->name('member.data');
+    Route::post('member/cetak', [MemberController::class, 'printCard']);
+    Route::resource('member', MemberController::class);
 });
 
-Route::get('tanggal', function() {
-    echo tanggal_indonesia(date('Y-m-d'));
-});
+// Route::get('tanggal', function() {
+//     echo tanggal_indonesia(date('Y-m-d'));
+// });
 
-Route::get('uang', function() {
-    echo "Rp. ". format_uang(12500000);
-});
+// Route::get('uang', function() {
+//     echo "Rp. ". format_uang(12500000);
+// });
 
-Route::get('terbilang', function() {
-    echo ucwords(terbilang(512342200));
-});
+// Route::get('terbilang', function() {
+//     echo ucwords(terbilang(512342200));
+// });
