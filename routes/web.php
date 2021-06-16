@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 
@@ -41,6 +42,9 @@ Route::middleware(['web', 'cekuser:1'])->group(function () {
     Route::get('member/data', [MemberController::class, 'listData'])->name('member.data');
     Route::post('member/cetak', [MemberController::class, 'printCard']);
     Route::resource('member', MemberController::class);
+
+    Route::get('pengeluaran/data', [PengeluaranController::class, 'listData'])->name('pengeluaran.data');
+    Route::resource('pengeluaran', PengeluaranController::class);
 });
 
 // Route::get('tanggal', function() {
