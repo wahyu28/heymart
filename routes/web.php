@@ -7,6 +7,8 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
+use App\Models\Supplier;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +22,14 @@ use App\Http\Controllers\SupplierController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login'));
 });
 
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::middleware(['web', 'cekuser:1'])->group(function () {
+Route::middleware(['web', 'cekuser:1', 'auth'])->group(function () {
     Route::get('kategori/data', [KategoriController::class, 'listData'])->name('kategori.data');
     Route::resource('kategori', KategoriController::class);
     
@@ -37,7 +39,7 @@ Route::middleware(['web', 'cekuser:1'])->group(function () {
     Route::resource('produk', ProdukController::class);
 
     Route::get('supplier/data', [SupplierController::class, 'listData'])->name('supplier.data');
-    Route::resource('supplier', SupplierController::class);
+    Route::resource('supplier', SupplierController::class)->except(['create', 'show']);
 
     Route::get('member/data', [MemberController::class, 'listData'])->name('member.data');
     Route::post('member/cetak', [MemberController::class, 'printCard']);
@@ -45,6 +47,14 @@ Route::middleware(['web', 'cekuser:1'])->group(function () {
 
     Route::get('pengeluaran/data', [PengeluaranController::class, 'listData'])->name('pengeluaran.data');
     Route::resource('pengeluaran', PengeluaranController::class);
+
+    Route::get('user/data', [UserController::class, 'listData'])->name('user.data');
+    Route::resource('user', UserController::class);
+});
+
+Route::group(['middleware' => 'web', 'auth'], function() {
+    Route::get('user/profil', [UserController::class, 'profil'])->name('user.profil');
+    Route::patch('user/{id}/change', [UserController::class, 'changeProfil']);
 });
 
 // Route::get('tanggal', function() {

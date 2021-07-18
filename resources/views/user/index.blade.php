@@ -6,7 +6,7 @@
         <div class="col">
             <!-- Page pre-title -->
             <h2 class="page-title">
-                Kategori
+                User
             </h2>
             <div class="page-pretitle">
                 <a href="{{ route('home') }}">Dashboard</a> / 
@@ -43,7 +43,8 @@
                         <thead>
                             <tr>
                                 <th class="w-4">No.</th>
-                                <th>Nama Kategori</th>
+                                <th>Nama User</th>
+                                <th>Email</th>
                                 <th class="w-1">Aksi</th>
                             </tr>
                         </thead>
@@ -58,7 +59,7 @@
     </div>
 </div>
 
-@include('kategori.form')
+@include('user.form')
 @endsection
 
 @push('after-script')
@@ -75,7 +76,7 @@ $(function() {
     table = $('.table').DataTable({
         "processing": true,
         "ajax": {
-            "url": "{{ route('kategori.data') }}",
+            "url": "{{ route('user.data') }}",
             "type": "GET"
         }
     });
@@ -84,8 +85,8 @@ $(function() {
     $("#modal-form form").on('submit', function(e) {
         if(!e.isDefaultPrevented()) {
             var id = $("#id").val();
-            if (save_method == "add") url = "{{ route('kategori.store') }}";
-            else url = "kategori/" + id;
+            if (save_method == "add") url = "{{ route('user.store') }}";
+            else url = "user/" + id;
 
             $.ajax({
                 url: url,
@@ -134,6 +135,8 @@ $(function() {
 
     function resetValidationText() {
         $('.nama_err').hide();
+        $('.email_err').hide();
+        $('.password_err').hide();
     }
 });
 
@@ -144,7 +147,7 @@ function editForm(id)
     $('input[name=_method]').val('PATCH');
     $('#modal-form form')[0].reset();
     $.ajax({
-        url: "kategori/" + id + "/edit",
+        url: "user/" + id + "/edit",
         type: "GET",
         dataType: "JSON",
         success: function(data) {
@@ -153,15 +156,17 @@ function editForm(id)
     		    keyboard: false,
                 show: true
             });
-            $('.modal-title').text('Edit Kategori');
+            $('.modal-title').text('Edit User');
 
-            $('#id').val(data.id_kategori);
-            $('#nama').val(data.nama_kategori);
+            $('#id').val(data.id);
+            $('#nama').val(data.name);
+            $('#email').val(data.email);
+            $('#password, #password_confirmation').removeAttr('required');
         },
         error: function() {
             Swal.fire({
                 icon: 'error',
-                title: 'Data gagal dimasukan, Silahkan refresh browser anda',
+                title: 'Data tidak berhasil di masukan',
                 showConfirmButton: true,
             });
         }
@@ -179,7 +184,7 @@ function addForm()
         show: true
     });
     $('#modal-form form')[0].reset();
-    $('.modal-title').text('Tambah Kategori');
+    $('.modal-title').text('Tambah User');
 }
 
 //Menghapus data

@@ -9,7 +9,13 @@
                 Daftar Pengeluaran
             </h2>
             <div class="page-pretitle">
-                <a href="{{ route('home') }}">Dashboard</a> / Pengeluaran
+                <a href="{{ route('home') }}">Dashboard</a> / 
+                @for ($i = 0; $i <= count(Request::segments()); $i++)
+                {{ Request::segment($i) }}
+                    @if ($i < count(Request::segments()) & $i > 0)
+                       /
+                    @endif
+                @endfor
             </div>
         </div>
     </div>
