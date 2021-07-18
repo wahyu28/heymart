@@ -8,7 +8,6 @@ use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
-use App\Models\Supplier;
 
 /*
 |--------------------------------------------------------------------------
