@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,9 @@ class UserController extends Controller
             $row[] = $list->email;
             $row[] = '
                 <div class="btn-group w-100">
+                    <a onclick="resetUser('. $list->id .')" class="btn btn-warning btn-sm btn-icon" aria-label="Button">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" /><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" /></svg>
+                    </a>
                     <a onclick="editForm('. $list->id .')" class="btn btn-info btn-sm btn-icon" aria-label="Button">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" /><path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" /><line x1="16" y1="5" x2="19" y2="8" /></svg>
                     </a>
@@ -181,5 +185,24 @@ class UserController extends Controller
 
         $user->update();
         echo json_encode(array("msg" => $msg, "url" => asset('public/images/'. $datagambar)));
+    }
+
+    public function resetUserPassword(Request $request)
+    {
+        if ($request->ajax()) {
+            $name = User::findOrFail($request->id);
+            return $name;
+        }
+
+        
+    }
+
+    public function notifikasiHeader()
+    {
+        $produk = Produk::select('id_produk', 'nama_produk', 'stok')
+                ->where('stok', '<=', 15)
+                ->get();
+        
+        return $produk;
     }
 }

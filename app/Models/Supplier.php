@@ -8,9 +8,8 @@ use Haruncpi\LaravelUserActivity\Traits\Loggable;
 
 class Supplier extends Model
 {
-    use HasFactory;
-    use Loggable;
-
+    use HasFactory, Loggable;
+    
     protected $table = 'supplier';
     protected $primaryKey = 'id_supplier';
 

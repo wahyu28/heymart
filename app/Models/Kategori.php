@@ -8,8 +8,7 @@ use Haruncpi\LaravelUserActivity\Traits\Loggable;
 
 class Kategori extends Model
 {
-    use HasFactory;
-    use Loggable;
+    use HasFactory, Loggable;
 
     protected $table = 'kategori';
     protected $primaryKey = 'id_kategori';

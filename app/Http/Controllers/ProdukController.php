@@ -36,9 +36,11 @@ class ProdukController extends Controller
             $no++;
             $row = array();
             $row[] = "<input type='checkbox' name='id[]' value='". $list->id_produk ."'>";
-            $row[] = $no;
-            $row[] = $list->kode_produk;
-            $row[] = $list->nama_produk;
+            // $row[] = $no;
+            $row[] = '
+	        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20 7.5v9l-4 2.25l-4 2.25l-4 -2.25l-4 -2.25v-9l4 -2.25l4 -2.25l4 2.25z" /><path d="M12 12l4 -2.25l4 -2.25" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M12 12l-4 -2.25l-4 -2.25" /><path d="M20 12l-4 2v4.75" /><path d="M4 12l4 2l0 4.75" /><path d="M8 5.25l4 2.25l4 -2.25" /></svg>
+            <span class="text-azure"><strong>'. $list->kode_produk. '</strong></span><br/>'. $list->nama_produk;
+            // $row[] = ;
             $row[] = $list->nama_kategori;
             $row[] = $list->merk;
             $row[] = "Rp. ". format_uang($list->harga_beli);
@@ -130,7 +132,7 @@ class ProdukController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function edit($id)
     {
         $produk = Produk::find($id);

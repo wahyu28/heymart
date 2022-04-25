@@ -8,6 +8,9 @@ use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Models\Supplier;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'web', 'auth'], function() {
+    Route::get('user/profil', [UserController::class, 'profil'])->name('user.profil');
+    Route::patch('user/{id}/change', [UserController::class, 'changeProfil'])->name('user.change_profil');
+});
 
 Route::middleware(['web', 'cekuser:1', 'auth'])->group(function () {
     Route::get('kategori/data', [KategoriController::class, 'listData'])->name('kategori.data');
@@ -48,22 +56,18 @@ Route::middleware(['web', 'cekuser:1', 'auth'])->group(function () {
     Route::resource('pengeluaran', PengeluaranController::class);
 
     Route::get('user/data', [UserController::class, 'listData'])->name('user.data');
+    Route::get('/notifikasi', [UserController::class, 'notifikasiHeader'])->name('notifikasi');
+    Route::get('user/reset-password', [UserController::class, 'resetUserPassword'])->middleware('password.confirm')->name('user.reset');
     Route::resource('user', UserController::class);
 });
 
-Route::group(['middleware' => 'web', 'auth'], function() {
-    Route::get('user/profil', [UserController::class, 'profil'])->name('user.profil');
-    Route::patch('user/{id}/change', [UserController::class, 'changeProfil']);
+Route::get('whatsapp', function() {
+    $url = "https://wa.me/6281617264337?text=I'm%20interested%20in%20your%20car%20for%20sale";
+
+    // session()->flash('url', $url);
+    return Redirect::to("/supplier")->with('url', $url);
 });
 
-// Route::get('tanggal', function() {
-//     echo tanggal_indonesia(date('Y-m-d'));
-// });
-
-// Route::get('uang', function() {
-//     echo "Rp. ". format_uang(12500000);
-// });
-
-// Route::get('terbilang', function() {
-//     echo ucwords(terbilang(512342200));
-// });
+Route::get('/webcam', function() {
+    return view('webcam');
+});

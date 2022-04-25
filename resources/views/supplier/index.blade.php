@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+{{-- @if (session()->has('url'))
+    {{ session()->get('url') }}
+    <script>
+        // alert({{ session()->get('url') }});
+        window.open("{{ session()->get('url') }}", "_blank");
+    </script>
+@endif --}}
+
+<a href="#" class="btn btn-warning" onclick="sendWhatsapp()">Send Whatsapp</a>
+
 <div class="page-header d-print-none">
     <div class="row align-items-center">
         <div class="col">
@@ -60,11 +70,16 @@
     </div>
 </div>
 
+
+
 @include('supplier.form')
 @endsection
 
 @push('after-script')
 <script>
+
+
+
 var table, save_method;
 
 $(function() {
@@ -140,6 +155,12 @@ $(function() {
         $('.telpon_err').hide();
     }
 });
+
+function sendWhatsapp()
+{
+    var link = "https://api.callmebot.com/whatsapp.php?phone=+6281383383033&text=Testing+api+bot&apikey=751765";
+    window.open(link);
+}
 
 //Menampilkan form edit dan menampilkan data pada form tersebut
 function editForm(id)

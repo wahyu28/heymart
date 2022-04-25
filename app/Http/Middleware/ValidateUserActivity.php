@@ -18,9 +18,10 @@ class ValidateUserActivity
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-        if ($user->level != 1) {
+        if ($user && $user->level != 1) {
             return redirect()->back();
+        } else {
+            return $next($request);
         }
-        return $next($request);
     }
 }

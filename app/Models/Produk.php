@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Haruncpi\LaravelUserActivity\Traits\Loggable;
 class Produk extends Model
 {
-    use HasFactory;
-    use Loggable; 
+    use HasFactory, Loggable;
 
     protected $table = 'produk';
     protected $primaryKey = 'id_produk';

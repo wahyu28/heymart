@@ -6,6 +6,7 @@
 <script src="{{ asset('dist/js/tabler.min.js') }}"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ asset('js/custom-script.js') }}"></script>
 <script>
     document.body.style.display = "block"
 </script>

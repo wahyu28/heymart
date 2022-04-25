@@ -15,7 +15,9 @@
     </div>
 </div>
 
-<div class="row row-cards text-muted">
+<div class="row row-deck row-cards text-muted">
+    
+
     <div class="col-12">
         <div class="card">
             <div class="card-header">

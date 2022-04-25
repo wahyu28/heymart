@@ -8,9 +8,8 @@ use Haruncpi\LaravelUserActivity\Traits\Loggable;
 
 class Pengeluaran extends Model
 {
-    use HasFactory;
-    use Loggable;
-    
+    use HasFactory, Loggable;
+
     protected $table = 'pengeluaran';
     protected $primaryKey = 'id_pengeluaran';
 }

@@ -34,10 +34,10 @@
                         <rect x="4" y="4" width="16" height="16" rx="2" />
                         <line x1="9" y1="12" x2="15" y2="12" />
                         <line x1="12" y1="9" x2="12" y2="15" /></svg>
-                    Tambah
+                    Tambah User
                 </a>
             </div>
-            <div class="card-body border-bottom py-3">
+            <div class="card-body border-bottom py-3" id="results">
                 <div class="table-responsive">
                     <table class="table table-striped table-vcenter text-nowrap">
                         <thead>
@@ -62,11 +62,15 @@
 @include('user.form')
 @endsection
 
+@push('after-style')
+<link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
+@endpush
 @push('after-script')
 <script>
 var table, save_method;
 
 $(function() {
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -198,6 +202,51 @@ function deleteData(id)
         confirmButtonColor: '#d33',
         cancelButtonColor: '#6e7d88',
         confirmButtonText: 'Ya, Hapus data!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "user/" + id,
+                type: "delete",
+                data: {
+                    "id" : id 
+                },
+                success: function(data) {
+                    table.ajax.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Data berhasil dihapus dari database',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Data gagal dihapus, Silahkan refresh browser anda',
+                        showConfirmButton: true,
+                    });
+                }
+            });
+        }
+    })
+}
+
+function resetUser($id)
+{
+    Swal.fire({
+        title: 'Yakin mereset password user ini?',
+        text: "Password yang di reset akan kembali ke pengaturan awal",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6e7d88',
+        confirmButtonText: 'Ya, Reset User!'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
