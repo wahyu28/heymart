@@ -6,7 +6,7 @@
             <div class="col">
                 <!-- Page pre-title -->
                 <h2 class="page-title">
-                    Supplier
+                    Daftar Pengeluaran
                 </h2>
                 <div class="page-pretitle">
                     <a href="{{ route('home') }}">Dashboard</a> /
@@ -44,9 +44,9 @@
                             <thead>
                                 <tr>
                                     <th class="w-4">No.</th>
-                                    <th>Nama Kategori</th>
-                                    <th>Alamat</th>
-                                    <th>Telepon</th>
+                                    <th>Tanggal</th>
+                                    <th>Jenis Pengeluaran</th>
+                                    <th>Nominal</th>
                                     <th class="w-1">Aksi</th>
                                 </tr>
                             </thead>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    @include('supplier.form')
+    @include('pengeluaran.form')
 @endsection
 
 @push('after-script')
@@ -78,7 +78,7 @@
             table = $('.table').DataTable({
                 "processing": true,
                 "ajax": {
-                    "url": "{{ route('supplier.data') }}",
+                    "url": "{{ route('pengeluaran.data') }}",
                     "type": "GET"
                 }
             });
@@ -87,8 +87,8 @@
             $("#modal-form form").on('submit', function(e) {
                 if (!e.isDefaultPrevented()) {
                     var id = $("#id").val();
-                    if (save_method == "add") url = "{{ route('supplier.store') }}";
-                    else url = "supplier/" + id;
+                    if (save_method == "add") url = "{{ route('pengeluaran.store') }}";
+                    else url = "pengeluaran/" + id;
 
                     $.ajax({
                         url: url,
@@ -136,9 +136,8 @@
             });
 
             function resetValidationText() {
-                $('.nama_err').hide();
-                $('.alamat_err').hide();
-                $('.telpon_err').hide();
+                $('.jenis_err').hide();
+                $('.nominal_err').hide();
             }
         });
 
@@ -148,7 +147,7 @@
             $('input[name=_method]').val('PATCH');
             $('#modal-form form')[0].reset();
             $.ajax({
-                url: "supplier/" + id + "/edit",
+                url: "pengeluaran/" + id + "/edit",
                 type: "GET",
                 dataType: "JSON",
                 success: function(data) {
@@ -157,17 +156,16 @@
                         keyboard: false,
                         show: true
                     });
-                    $('.modal-title').text('Edit Kategori');
+                    $('.modal-title').text('Edit Pengeluaran');
 
-                    $('#id').val(data.id_supplier);
-                    $('#nama').val(data.nama);
-                    $('#alamat').val(data.alamat);
-                    $('#telpon').val(data.telpon);
+                    $('#id').val(data.id_pengeluaran);
+                    $('#jenis').val(data.jenis_pengeluaran);
+                    $('#nominal').val(data.nominal);
                 },
                 error: function() {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Tidak dapat menampilkan data!',
+                        title: 'Data gagal dimasukan, Silahkan refresh browser anda',
                         showConfirmButton: true,
                     });
                 }
@@ -184,7 +182,7 @@
                 show: true
             });
             $('#modal-form form')[0].reset();
-            $('.modal-title').text('Tambah Supplier');
+            $('.modal-title').text('Tambah Pengeluaran');
         }
 
         //Menghapus data
@@ -200,7 +198,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "supplier/" + id,
+                        url: "pengeluaran/" + id,
                         type: "POST",
                         data: {
                             _method: 'DELETE',
@@ -218,7 +216,7 @@
                         error: function() {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Tidak dapat menghapus data!',
+                                title: 'Data gagal dihapus, Silahkan refresh browser anda',
                                 showConfirmButton: true,
                             });
                         }

@@ -1,16 +1,19 @@
 <?php
 
+use App\Models\Supplier;
+use App\Models\Pembelian;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\MemberController;
-use App\Http\Controllers\PengeluaranController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
-use App\Models\Supplier;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PengeluaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +57,11 @@ Route::middleware(['web', 'cekuser:1', 'auth'])->group(function () {
 
     Route::get('pengeluaran/data', [PengeluaranController::class, 'listData'])->name('pengeluaran.data');
     Route::resource('pengeluaran', PengeluaranController::class);
+
+    Route::get('pembelian/data', [PembelianController::class, 'listData'])->name('pengeluaran.data');
+    Route::get('pembelian/{id}/tambah', [PembelianController::class, 'create']);
+    Route::get('pembelian/{id}/lihat', [PembelianController::class, 'show']);
+    Route::resource('pembelian', PembelianController::class);
 
     Route::get('user/data', [UserController::class, 'listData'])->name('user.data');
     Route::get('/notifikasi', [UserController::class, 'notifikasiHeader'])->name('notifikasi');

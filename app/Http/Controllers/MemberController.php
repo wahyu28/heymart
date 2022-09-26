@@ -165,8 +165,8 @@ class MemberController extends Controller
             $dataMember[] = $member;
         }
 
-        $pdf = PDF::loadView('member.card', compact('dataMember'));
-        $pdf->setPaper(array(0, 0, 566, 93, 850.39), 'potrait');
+        $pdf = \PDF::loadView('member.card', compact('dataMember'));
+        $pdf->setPaper(array(0, 0, 566.93, 850.39), 'potrait');
         return $pdf->stream();
     }
 }
